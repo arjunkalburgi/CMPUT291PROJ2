@@ -18,7 +18,7 @@ def connect_database():
 
 def main():
 	while True:
-		action = raw_input("\nOptions\n \
+		action = raw_input("\Choose what to do\n \
         	1. Relation Info\n \
         	2. Perform 3NF Decomposition\n \
         	3. Perform BCNF Decomposition\n \
