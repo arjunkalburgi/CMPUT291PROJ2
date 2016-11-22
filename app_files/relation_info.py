@@ -1,3 +1,6 @@
+from database_files import database as db
 
 def start(): 
-	pass
+	# Display Table Mapping 
+
+	# Display Functional Dependencies 
