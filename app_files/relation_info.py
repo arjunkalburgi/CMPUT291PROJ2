@@ -5,7 +5,7 @@ def show_fds(action):
 		return;
 	else: 
 		db.getFDSfor(action)
-	show_fds(raw_input("\nChoose a table-number or 'Q'\n"))
+		show_fds(raw_input("\nChoose a table-number or 'Q'\n"))
 
 def start(): 
 	# Display Table Mapping 
