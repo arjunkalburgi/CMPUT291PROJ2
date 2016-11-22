@@ -27,7 +27,7 @@ def main():
         	6. Quit\n")
         
 		if action == "1":
-				relation_info.start()
+			relation_info.start()
 		elif action == "2":
 			NF3_decomp.start()
 		elif action == "3":
