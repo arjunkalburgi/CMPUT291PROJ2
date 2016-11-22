@@ -24,15 +24,15 @@ def main():
         	6. Quit\n")
         
         if action == "1":
-        	NF3_decomp.start()
+			relation_info.start()
         elif action == "2":
-        	BCNF_decomp.start()
+        	NF3_decomp.start()
         elif action == "3":
-        	attr_closure.start()
+        	BCNF_decomp.start()
         elif action == "4":
-        	func_dep.start()
+        	attr_closure.start()
         elif action == "5":
-        	relation_info.start()
+        	func_dep.start()
         elif action == "6":
         	break;
         else:
