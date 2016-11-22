@@ -1,17 +1,20 @@
 import sqlite3
 import os
-import NF3_decomp
-import BCNF_decomp
-import attr_closure
-import func_dep
-import relation_info
+
+from app_files import NF3_decomp
+from app_files import BCNF_decomp
+from app_files import attr_closure
+from app_files import func_dep
+from app_files import relation_info
+
+from database_files import database
 
 def connect_database():
 	path = raw_input("path (and file) of database: ")
     if path == "":
-        conn = sqlite3.connect('MiniProject2-InputExample.db')
+        database.connectDB('database_files/MiniProject2-InputExample.db')
     else:
-        conn = sqlite3.connect(path)
+        database.connectDB(path)
 
 def main():
 	while True:
@@ -42,3 +45,5 @@ def main():
 if __name__  == "__app__":
 	connect_database()
 	main()
+
+	
