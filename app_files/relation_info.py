@@ -4,7 +4,7 @@ def show_fds(action):
 	if action == "Q": 
 		return;
 	else: 
-		db.getFDSfor(action)
+		db.printFDSfor(action)
 		show_fds(raw_input("\nChoose a table-name or 'Q'\n"))
 
 def start(): 
