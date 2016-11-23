@@ -10,22 +10,22 @@ from app_files import relation_info
 from database_files import database
 
 def connect_database():
-	path = raw_input("path (and file) of database: ")
-    if path == "":
-        database.connectDB('database_files/MiniProject2-InputExample.db')
-    else:
-        database.connectDB(path)
+	path = raw_input("Enter the path to database file (enter for default): ")
+	if path == "":
+		database.connectDB('database_files/MiniProject2-InputExample.db')
+	else:
+		database.connectDB(path)
 
 def main():
 	while True:
-		action = raw_input("\Choose what to do\n \
+		action = raw_input("Choose what to do\n \
         	1. Relation Info\n \
         	2. Perform 3NF Decomposition\n \
         	3. Perform BCNF Decomposition\n \
         	4. Determine Attribute Closure\n \
         	5. Determine Functional Dependencies Equivalence\n \
         	6. Quit\n")
-        
+
 		if action == "1":
 			relation_info.start()
 		elif action == "2":
@@ -43,8 +43,6 @@ def main():
 
 	print("Bye")
 
-if __name__  == "__app__":
+if __name__  == "__main__":
 	connect_database()
 	main()
-
-	
