@@ -22,14 +22,24 @@ def dict_factory(cursor, row):
 # relation_info.py
 def printTableNames():
 	c.execute("SELECT name,sql FROM SQLITE_MASTER WHERE name NOT LIKE '%FDS%';")
-	for table in c: 
+	for table in c:
 		print("Table Name: " + str(table["name"]))
 		print("Table Code: \n" + str(table["sql"]))
 		print("\n")
 
 # relation_info.py
-def getFDSfor(table_name): 
+def printFDSfor(table_name):
 	t = table_name.split("_")
 	c.execute("SELECT * FROM ?".replace("?", t[0]+"_FDS_"+t[1]))
-	for table in c: 
+	for table in c:
 		print(str(table['LHS']) + " -> " + str(table['RHS']))
+
+def getFDSforTables(table_names):
+    fds = []
+    for table_name in table_names:
+        c.execute("SELECT * FROM ?".replace("?", table_name))
+        fds += c.fetchall()
+    return fds
+
+# connectDB('database_files/MiniProject2-InputExample.db')
+# getFDSforTables('Input_FDs_R1')
