@@ -78,5 +78,6 @@ def start():
 	response = raw_input("Fill new tables with data from original table (y/n)?: ")
 	if response == 'y':
 		db.move_data(table_name, bcnf)
+		print "Succesfully filled new tables with data!"
 
 	raw_input("Press enter to continue...")

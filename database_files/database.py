@@ -74,9 +74,5 @@ def move_data(table_name, schemas):
     '''
     for s in schemas:
         output_table_name = "Output_" + table_name.split('_')[1] + '_' + ''.join(s['attributes'])
-        print "INSERT INTO " + output_table_name + " SELECT " + ','.join(s['attributes']) + " FROM " + table_name
         c.execute("INSERT INTO " + output_table_name + " SELECT " + ','.join(s['attributes']) + " FROM " + table_name)
     conn.commit()
-
-# connectDB('database_files/MiniProject2-InputOutputExampleBCNF.db')
-# create_new_schemas([{'attributes': ['F', 'A'], 'fds': [{'LHS': 'F', 'RHS': 'A'}]}], 'Kevin')
