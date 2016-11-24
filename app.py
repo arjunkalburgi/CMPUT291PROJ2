@@ -17,14 +17,18 @@ def connect_database():
 		database.connectDB(path)
 
 def main():
+	print "Welcome to the Normalization Application!"
 	while True:
-		action = raw_input("Choose what to do\n \
+		print "---------------------------------------------------------------"
+		print "Choose what to do:\n \
         	1. Relation Info\n \
         	2. Perform 3NF Decomposition\n \
         	3. Perform BCNF Decomposition\n \
         	4. Determine Attribute Closure\n \
         	5. Determine Functional Dependencies Equivalence\n \
-        	6. Quit\n")
+        	6. Quit\n"
+
+		action = raw_input("Enter a number: ")
 
 		if action == "1":
 			relation_info.start()
