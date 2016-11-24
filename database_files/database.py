@@ -41,5 +41,42 @@ def getFDSforTables(table_names):
         fds += c.fetchall()
     return fds
 
-# connectDB('database_files/MiniProject2-InputExample.db')
-# getFDSforTables('Input_FDs_R1')
+def getColumnNames(table_name):
+    res = c.execute("SELECT * FROM ?".replace("?", table_name))
+    names = list(map(lambda x: x[0], res.description))
+    return names
+
+def create_new_schemas(schemas, name):
+    '''
+    schemas: e.g. [{'attributes': ['F', 'A'], 'fds': [{'LHS': 'F', 'RHS': 'A'}]}]
+    Creates schemas for each schema corresponding to the format above.
+    The above schema would create two tables:
+    Output_R1_FA
+    Output_FDS_R1_FA
+    '''
+    for s in schemas:
+        table_name = "Output_" + name + '_' + ''.join(s['attributes'])
+        c.execute("DROP TABLE IF EXISTS " + table_name)
+        c.execute("CREATE TABLE " + table_name + '(' + ','.join(s['attributes']) + ')')
+        fd_table_name = 'Output_FDS_' + name + '_' + ''.join(s['attributes'])
+        c.execute("DROP TABLE IF EXISTS " + fd_table_name)
+        c.execute("CREATE TABLE " + fd_table_name + '(LHS, RHS)')
+        for fd in s['fds']:
+            c.execute("INSERT INTO " + fd_table_name + " VALUES('" + fd['LHS'] + "','" + fd['RHS'] + "')")
+    conn.commit()
+
+def move_data(table_name, schemas):
+    '''
+    table_name: e.g. Input_R1
+    schemas: e.g. [{'attributes': ['F', 'A'], 'fds': [{'LHS': 'F', 'RHS': 'A'}]}]
+    Moves data from the original table (table_name) into
+    the schemas specified.
+    '''
+    for s in schemas:
+        output_table_name = "Output_" + table_name.split('_')[1] + '_' + ''.join(s['attributes'])
+        print "INSERT INTO " + output_table_name + " SELECT " + ','.join(s['attributes']) + " FROM " + table_name
+        c.execute("INSERT INTO " + output_table_name + " SELECT " + ','.join(s['attributes']) + " FROM " + table_name)
+    conn.commit()
+
+# connectDB('database_files/MiniProject2-InputOutputExampleBCNF.db')
+# create_new_schemas([{'attributes': ['F', 'A'], 'fds': [{'LHS': 'F', 'RHS': 'A'}]}], 'Kevin')
