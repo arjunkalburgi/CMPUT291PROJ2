@@ -6,7 +6,7 @@ def functional_depedencies_equivalent(f1, f2):
 	f1 and f2: list of dictionaries with a LHS and RHS field. LHS
 	and RHS fields should be a comma separated string of
 	attribute names
-	(e.g. [{LHS: 'A,B,C', 'RHS': 'D,K'}])
+	(e.g. [{'LHS': 'A,B,C', 'RHS': 'D,K'}])
 	Returns true if f1 and f2 are equivalent sets of functional
 	dependencies
 	'''

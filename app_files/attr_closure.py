@@ -7,9 +7,9 @@ def compute_attribute_closure(attrs, fds):
 	fds: list of dictionaries with a LHS and RHS field. LHS
 	and RHS fields should be a comma separated string of
 	attribute names
-	(e.g. [{LHS: 'A,B,C', 'RHS': 'D,K'}])
+	(e.g. [{'LHS': 'A,B,C', 'RHS': 'D,K'}])
 	Returns the attribute closure of attrs with respect to
-	the functional depedencies in fds
+	the functional depedencies in fds in a set
 	'''
 	closure = set(attrs)
 	old = set()
