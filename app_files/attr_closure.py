@@ -16,8 +16,14 @@ def compute_attribute_closure(attrs, fds):
 	while closure != old:
 		old = closure
 		for fd in fds:
-			lhs = set(fd['LHS'].split(','))
-			rhs = set(fd['RHS'].split(','))
+			if "," not in fd['LHS']: 
+				lhs = set(list(fd['LHS']))
+			else: 
+				lhs = set(fd['LHS'].split(','))
+			if "," not in fd['RHS']: 
+				rhs = set(list(fd['RHS']))
+			else: 
+				rhs = set(fd['RHS'].split(','))
 			if lhs.issubset(closure):
 				closure = closure.union(rhs)
 	return closure
