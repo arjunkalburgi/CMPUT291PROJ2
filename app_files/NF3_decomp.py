@@ -69,7 +69,6 @@ def minimal_cover(f):
 
 	# remove redundancies from LHS and redundance FDs
 	f = remove_redundancies(f)
-	f = remove_redundancies(f)
 	f = remove_fds(f)
 
 	# now f is minimal cover!
