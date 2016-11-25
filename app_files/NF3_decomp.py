@@ -1,6 +1,33 @@
 from database_files import database as db
 from app_files.attr_closure import compute_attribute_closure as at_cl
 import itertools
+import copy
+
+def getAttributes(f): 
+	a = []
+	for fd in f: 
+		fdat = list(fd["LHS"] + fd["RHS"])
+		for at in fdat: 
+			if at not in a: 
+				a.append(at)
+	return a
+
+def check_keys(f, attributes, original): 
+	need_a_key = False
+	for fd in f: 
+		Ri = list(fd['LHS'] + fd["RHS"])
+		closure = at_cl(Ri, original)
+		if closure != attributes: 
+			need_a_key = True
+			break
+	if need_a_key: 	
+		for L in range(0,len(attributes)-1):
+			combinations = itertools.combinations(attributes, L)
+			for combo in combinations:
+				combo_closure = at_cl(list(combo), original)
+				if combo_closure == set(attributes): 
+					f.append({"LHS": "".join(combo), "RHS": ""})
+					return f
 
 def remove_lhs_redundancies(f):
 	for fd in f: 
@@ -22,9 +49,11 @@ def remove_fds(f):
 
 	return f
 
-def minimal_cover(f): 
+def minimal_cover(o): 
 	# f = [{'LHS': 'ABH', 'RHS': 'CK'}, {'LHS': 'A', 'RHS': 'D'}, {'LHS': 'C', 'RHS': 'E'}, {'LHS': 'BGH', 'RHS': 'F'}, {'LHS': 'F', 'RHS': 'AD'}, {'LHS': 'E', 'RHS': 'F'}, {'LHS': 'BH', 'RHS': 'E'}]
 	# t = {'name': 'Input_R1', 'sql': 'CREATE TABLE....', 'attributes': {'A':'INT','B':'INT',...}}
+	attributes = getAttributes(o)
+	f = copy.deepcopy(o)
 
 	# RHS to single element
 	for fd in f: 
@@ -48,6 +77,8 @@ def minimal_cover(f):
 				fd['RHS'] = fd['RHS'] + small_fd['RHS']
 				f.remove(small_fd)
 		f.append(fd)
+
+	f = check_keys(f, attributes, o)
 
 	# now f is minimal cover!
 	return f
