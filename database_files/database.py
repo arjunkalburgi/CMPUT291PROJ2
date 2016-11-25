@@ -8,8 +8,6 @@ c = None # global for cursor
 def connectDB(path):
 	global conn
 	global c
-	if path == "":
-		path = 'database_files/MiniProject2-InputExample.db'
 	conn = sqlite3.connect(path)
 	conn.row_factory = dict_factory
 	c = conn.cursor()
