@@ -58,7 +58,7 @@ def chooseTable():
 		tables[table["name"]] = table["sql"]
 		# print("\n")
 
-	table = raw_input("Choose a table (type table's name)")
+	table = raw_input("Choose a table (type table's name): ")
 	if table in tables:
 		print("This is the table (and its FDs) you've chosen: \n"+ tables[table])
 		return {'name': table, 'sql': tables[table], 'attributes': attributesFromSql(tables[table])}
@@ -106,19 +106,24 @@ def partition(f,t):
 	name = "NF3_" + t['name'].replace("Input", "Output")
 
 	# each fd needs 1.Partition Table, 2.FDs Table
+	print("Created: ")
 	for fd in f:
 		fd_att = fd['LHS'] + fd['RHS'] # attributes of fd
 		t_name = name + "_" + fd_att
-		# print(t_name)
 		c.execute("DROP TABLE IF EXISTS " + t_name)
 
 		# 1. Partition Table
 		partition_sql = "CREATE TABLE " + t_name + "(\n" # bs i found online: + " AS SELECT " + ','.join(list(fd_att)) + " FROM " + t['name']
 		for at in list(fd_att):
 			partition_sql += "  " + at + " " + t['attributes'][at] + ",\n"
-		partition_sql += "  PRIMARY KEY("+",".join(fd["LHS"])+"))"
+		if fd["RHS"] is not "": 
+			partition_sql += "  PRIMARY KEY("+",".join(fd["LHS"])+"))"
+		else:
+			partition_sql = partition_sql[:-2]
+			partition_sql += ")"
 
 		c.execute(partition_sql)
+		conn.commit()
 
 
 		# 2. FDs Table
@@ -126,10 +131,9 @@ def partition(f,t):
 		partition_createtable = "CREATE TABLE "+name+"_FDS_"+fd_att+" (LHS TEXT,RHS TEXT);"
 		partition_insertdata = "INSERT INTO "+name+"_FDS_"+fd_att+" VALUES ('"+fd['LHS']+"','"+fd['RHS']+"');"
 
-		print(partition_insertdata)
-
 		c.execute(partition_createtable)
 		c.execute(partition_insertdata)
+		print("  "+name+"_FDS_"+fd_att+": ('"+fd['LHS']+"','"+fd['RHS']+"')")
 
 		conn.commit()
 
