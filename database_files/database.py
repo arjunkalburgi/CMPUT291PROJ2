@@ -58,7 +58,7 @@ def chooseTable():
 		tables[table["name"]] = table["sql"]
 		# print("\n")
 
-	table = raw_input("Choose a table (type table's name)")
+	table = raw_input("Choose a table (type table's name): ")
 	if table in tables:
 		print("This is the table (and its FDs) you've chosen: \n"+ tables[table])
 		return {'name': table, 'sql': tables[table], 'attributes': attributesFromSql(tables[table])}
