@@ -12,9 +12,9 @@ from database_files import database
 def connect_database():
 	path = raw_input("Enter the path to database file (enter for default): ")
 	if path == "":
-		database.connectDB('database_files/MiniProject2-InputExample.db')
-	else:
-		database.connectDB(path)
+		path = 'database_files/MiniProject2-InputExample.db'
+	database.connectDB(path)
+	print "Connected to database at " + path
 
 def main():
 	print "Welcome to the Normalization Application!"

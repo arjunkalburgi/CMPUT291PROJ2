@@ -151,7 +151,14 @@ def create_new_schemas(schemas, name):
 	for s in schemas:
 		table_name = "Output_" + name + '_' + ''.join(s['attributes'])
 		c.execute("DROP TABLE IF EXISTS " + table_name)
-		c.execute("CREATE TABLE " + table_name + '(' + ','.join(s['attributes']) + ')')
+
+		create_table_str = "CREATE TABLE " + table_name + '(' + ','.join(s['attributes'])
+		if len(s['fds']) == 1:
+			create_table_str += ',PRIMARY KEY(' + s['fds'][0]['LHS'] + '))'
+		else:
+			create_table_str += ')'
+
+		c.execute(create_table_str)
 		fd_table_name = 'Output_FDS_' + name + '_' + ''.join(s['attributes'])
 		c.execute("DROP TABLE IF EXISTS " + fd_table_name)
 		c.execute("CREATE TABLE " + fd_table_name + '(LHS, RHS)')
