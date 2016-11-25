@@ -1,5 +1,6 @@
 from database_files import database as db
 from attr_closure import compute_attribute_closure
+from func_dep import functional_depedencies_equivalent
 
 def compute_bcnf(attrs, fds):
 	'''
@@ -74,6 +75,16 @@ def start():
 		output_table_name = "Output_" + table_name.split('_')[1] + '_' + ''.join(s['attributes'])
 		fd_table_name = 'Output_FDS_' + table_name.split('_')[1] + '_' + ''.join(s['attributes'])
 		print "Table " + str(idx + 1) + ': ' + output_table_name + " | FDs: " + fd_table_name
+
+	new_fds = [];
+	for s in bcnf:
+		new_fds += s['fds']
+	is_dep_preserving = functional_depedencies_equivalent(fds, new_fds)
+
+	if is_dep_preserving:
+		print "The decomposition is dependency preserving!"
+	else:
+		print "The decomposition is not dependency preserving!"
 
 	response = raw_input("Fill new tables with data from original table (y/n)?: ")
 	if response == 'y':
